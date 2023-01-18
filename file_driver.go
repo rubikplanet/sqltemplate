@@ -82,12 +82,12 @@ func parseMarkdown(filename string) ([]Sql, error) {
 			break
 		}
 		var tpl Sql
-		if list[i].Type == "text" && list[i+1].Type == "code" {
+		if i+1 < len(list) && list[i].Type == "text" && list[i+1].Type == "code" {
 			tpl.Name = list[i].Content
 			tpl.Script = list[i+1].Content
 			sqls = append(sqls, tpl)
 			i += 2
-		} else if list[i].Type == "text" && list[i+1].Type == "text" && list[i+2].Type == "code" {
+		} else if i+2 < len(list) && list[i].Type == "text" && list[i+1].Type == "text" && list[i+2].Type == "code" {
 			tpl.Name = list[i].Content
 			tpl.Description = list[i+1].Content
 			tpl.Script = list[i+2].Content
