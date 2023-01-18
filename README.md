@@ -14,7 +14,7 @@ create a markdown in `sql/test.md`
     ### GetStudentByID
     >get student by id, required id
     ```sql
-    select * from student where id = {{.}}
+    select * from student where id = {{. | bind}}
     ```
 ```
 
@@ -40,12 +40,11 @@ func main() {
     //     },
     // })
     st.Load()
-    sql, err := st.RenderTPL("GetStudentByID2", 1)
+    sql, args, err := st.RenderTPL("GetStudentByID2", 1)
     if err != nil {
         panic(err)
     }
-    fmt.Println(sql)
-    // select * from student where id = 1
+    fmt.Println(sql, args)
 }
 ```
 
