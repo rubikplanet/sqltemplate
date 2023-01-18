@@ -1,7 +1,7 @@
 ### GetStudentByID2
 
 ```sql
-select * from student where id = {{.}}
+select * from student where id = {{. | bind}}
 ```
 
 ### GetStudentByID
