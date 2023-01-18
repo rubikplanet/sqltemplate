@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"reflect"
+	"strings"
 	"text/template"
 )
 
@@ -12,8 +14,19 @@ type bindings struct {
 }
 
 func (b *bindings) bind(value interface{}) string {
-	b.values = append(b.values, value)
-	return "?"
+	var paramPlaceHolders []string
+	v := reflect.ValueOf(value)
+	if v.Type().Kind() != reflect.Slice {
+		b.values = append(b.values, value)
+		paramPlaceHolders = append(paramPlaceHolders, "?")
+	} else {
+		length := v.Len()
+		for i := 0; i < length; i++ {
+			b.values = append(b.values, v.Index(i).Interface())
+			paramPlaceHolders = append(paramPlaceHolders, "?")
+		}
+	}
+	return strings.Join(paramPlaceHolders, ",")
 }
 
 func (st *SqlTemplate) RenderTPL(name string, data interface{}) (string, []interface{}, error) {
