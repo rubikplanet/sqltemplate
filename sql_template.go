@@ -18,7 +18,9 @@ type SqlTemplate struct {
 func New() *SqlTemplate {
 	st := &SqlTemplate{
 		drivers: make(map[string]Driver),
-		funcs:   template.FuncMap{},
+		funcs: template.FuncMap{
+			"bind": bind,
+		},
 	}
 	return st
 }

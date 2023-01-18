@@ -19,9 +19,9 @@ func TestDynamicLoad(t *testing.T) {
 		},
 	})
 	st.Load()
-	sql, err := st.RenderTPL("rest1", "test")
+	sql, args, err := st.RenderTPL("rest1", "test")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(sql)
+	fmt.Println(sql, args)
 }
